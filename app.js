@@ -31,21 +31,23 @@ const showImages = (images) => {
 const getImages = (query) => {
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
-    .then(data => showImages(data.hitS))
+    .then(data => showImages(data.hits))
     .catch(err => console.log(err))
 }
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
+  // console.log(event.target)
   let element = event.target;
   element.classList.add('added');
- 
+  // console.log(element)
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
   } else {
     alert('Hey, Already added !')
   }
+  // console.log(sliders)
 }
 var timer
 const createSlider = () => {
@@ -68,6 +70,13 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;
+  if (duration < 0 || isNaN(duration)) {
+    console.log(typeof duration)
+    alert("Input Positive numbers as duration")
+    getImages("")
+    document.getElementById('duration').value = ""
+    return
+  }
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
