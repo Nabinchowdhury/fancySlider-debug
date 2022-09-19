@@ -4,6 +4,7 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
+const sliderDots = document.getElementById('sliders-dot');
 // selected image 
 let sliders = [];
 
@@ -78,12 +79,21 @@ const createSlider = () => {
     return
   }
   sliders.forEach(slide => {
+    // console.log(sliders)
     let item = document.createElement('div')
     item.className = "slider-item";
     item.innerHTML = `<img class="w-100"
     src="${slide}"
     alt="">`;
     sliderContainer.appendChild(item)
+
+    const dot = document.createElement('span')
+    dot.className = "dot";
+    dot.setAttribute('onclick', ` changeSlide(sliders.indexOf("${slide}"))`)
+
+
+    sliderDots.appendChild(dot)
+
   })
   changeSlide(0)
   timer = setInterval(function () {
@@ -106,16 +116,18 @@ const changeSlide = (index) => {
     index = slideIndex;
   };
 
-  if (index >= items.length) {
+  if (index > items.length - 1) {
     index = 0;
     slideIndex = 0;
   }
+
 
   items.forEach(item => {
     item.style.display = "none"
   })
 
   items[index].style.display = "block"
+  // console.log(index)
 }
 
 searchBtn.addEventListener('click', function () {
